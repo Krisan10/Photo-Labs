@@ -6,10 +6,6 @@ import './App.scss';
 // Note: Rendering a single component to build components in isolation
 const App = () => {
   //Present the photo three times
- 
-  const photoListItems = photos.map((photo, index) => 
-    <PhotoListItem key={index} photo={sampleDataForPhotoListItem} />
-  );
 
 const sampleDataForPhotoListItem = {
   id: "1",
@@ -23,13 +19,14 @@ const sampleDataForPhotoListItem = {
 };
 
 const photos = new Array(3).fill(sampleDataForPhotoListItem);
+const photoListItems = photos.map((photo, index) => 
+  <PhotoListItem key={index} photo={photo} />
+);
 
 return (
   <div className="App">
     <h1>Hello World</h1>
-    {photos.map((photo, index) => (
-      <PhotoListItem key={index} photo={photo} />
-    ))}
+    {photoListItems}
   </div>
 );
 };
