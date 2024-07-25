@@ -6,7 +6,7 @@ import './App.scss';
 // Note: Rendering a single component to build components in isolation
 const App = () => {
   //Present the photo three times
-  const photos = [...Array(3)];
+ 
   const photoListItems = photos.map((photo, index) => 
     <PhotoListItem key={index} photo={sampleDataForPhotoListItem} />
   );
@@ -22,14 +22,16 @@ const sampleDataForPhotoListItem = {
   profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
 };
 
-  return (
-    <div className="App">
-      <h1>Hello World</h1>
-      <PhotoListItem photo = {sampleDataForPhotoListItem} /> 
-      {/* Using the name photo as a sub for prop */}
-      {photoListItems}
-    </div>
-  );
+const photos = new Array(3).fill(sampleDataForPhotoListItem);
+
+return (
+  <div className="App">
+    <h1>Hello World</h1>
+    {photos.map((photo, index) => (
+      <PhotoListItem key={index} photo={photo} />
+    ))}
+  </div>
+);
 };
 
 export default App;
