@@ -5,7 +5,12 @@ import './App.scss';
 
 // Note: Rendering a single component to build components in isolation
 const App = () => {
-  //Data of profile
+  //Present the photo three times
+  const photos = [...Array(3)];
+  const photoListItems = photos.map((photo, index) => 
+    <PhotoListItem key={index} photo={sampleDataForPhotoListItem} />
+  );
+
 const sampleDataForPhotoListItem = {
   id: "1",
   location: {
@@ -22,6 +27,7 @@ const sampleDataForPhotoListItem = {
       <h1>Hello World</h1>
       <PhotoListItem photo = {sampleDataForPhotoListItem} /> 
       {/* Using the name photo as a sub for prop */}
+      {photoListItems}
     </div>
   );
 };
