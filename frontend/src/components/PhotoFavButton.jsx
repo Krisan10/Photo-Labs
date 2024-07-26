@@ -7,7 +7,7 @@ function PhotoFavButton() {
   const [favourite, setFavourite] = useState(false);
 // handleClick toggles the favourite state between true and false
   const handleClick = () => {
-    setFavourite(!favourite);
+    setFavourite(prevfavourite => !prevfavourite);
   };
 
   return (
