@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.scss';
-import PhotoList from 'components/PhotoList';
-import TopicList from 'components/TopicList';
-import TopNavigation from 'components/TopNavigationBar';
+import HomeRoute from 'routes/HomeRoute';
 
 // const photos = new Array(3).fill(sampleDataForPhotoListItem);
 // const photoListItems = photos.map((photo, index) => 
@@ -12,9 +10,8 @@ import TopNavigation from 'components/TopNavigationBar';
 const App = () => {
   return (
     <div className="App">
-      <TopNavigation />  
-      <h1>Hello World</h1>
-      <PhotoList />
+      <HomeRoute />
+
     </div>
   );
 };
