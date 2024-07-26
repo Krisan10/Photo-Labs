@@ -1,17 +1,12 @@
 import React from "react";
-
 import "../styles/TopicListItem.scss";
 
-const sampleDataForTopicListItem = {
-  id: "1",
-  slug: "topic-1",
-  label: "Nature",
-};
+const TopicListItem = ({ topic }) => {
+  const { id, title } = topic; // Destructure properties from topic object
 
-const TopicListItem = () => {
   return (
-    <div className="topic-list__item">
-      {/* Insert React */}
+    <div className="topic-list__item" key={id}>
+      <div className="topic-list__title">{title}</div>
     </div>
   );
 };
