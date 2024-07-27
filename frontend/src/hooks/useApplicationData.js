@@ -7,17 +7,17 @@ const initialState = {
   favouritePhotos: {}
 };
 
-// Define action types
-const ActionTypes = {
-  TOGGLE_FAVOURITE: 'TOGGLE_FAVOURITE',
-  SET_DISPLAY_MODAL: 'SET_DISPLAY_MODAL',
-  SET_SELECTED_PHOTO: 'SET_SELECTED_PHOTO'
+// Define action types using camelCase
+const actionTypes = {
+  toggleFavourite: 'TOGGLE_FAVOURITE',
+  setDisplayModal: 'SET_DISPLAY_MODAL',
+  setSelectedPhoto: 'SET_SELECTED_PHOTO'
 };
 
 // Define the reducer function
 const reducer = (state, action) => {
   switch (action.type) {
-    case ActionTypes.TOGGLE_FAVOURITE:
+    case actionTypes.toggleFavourite:
       return {
         ...state,
         favouritePhotos: {
@@ -25,12 +25,12 @@ const reducer = (state, action) => {
           [action.photoId]: !state.favouritePhotos[action.photoId]
         }
       };
-    case ActionTypes.SET_DISPLAY_MODAL:
+    case actionTypes.setDisplayModal:
       return {
         ...state,
         displayModal: action.payload
       };
-    case ActionTypes.SET_SELECTED_PHOTO:
+    case actionTypes.setSelectedPhoto:
       return {
         ...state,
         selectedPhoto: action.payload
@@ -46,15 +46,15 @@ const useApplicationData = () => {
 
   // Define callback functions to dispatch actions
   const toggleFavourite = useCallback((photoId) => {
-    dispatch({ type: ActionTypes.TOGGLE_FAVOURITE, photoId });
+    dispatch({ type: actionTypes.toggleFavourite, photoId });
   }, []);
 
   const setDisplayModal = useCallback((isVisible) => {
-    dispatch({ type: ActionTypes.SET_DISPLAY_MODAL, payload: isVisible });
+    dispatch({ type: actionTypes.setDisplayModal, payload: isVisible });
   }, []);
 
   const setSelectedPhoto = useCallback((photo) => {
-    dispatch({ type: ActionTypes.SET_SELECTED_PHOTO, payload: photo });
+    dispatch({ type: actionTypes.setSelectedPhoto, payload: photo });
   }, []);
 
   return {
