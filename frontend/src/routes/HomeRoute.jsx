@@ -4,9 +4,8 @@ import PhotoList from 'components/PhotoList';
 import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 import '../styles/HomeRoute.scss';
 
-const HomeRoute = ({ photos, topics }) => {
+const HomeRoute = ({ photos, topics, setDisplayModal, setSelectedPhoto }) => {
   const [favouritePhotos, setFavouritePhotos] = useState({});
-  const [displayModal, setDisplayModal] = useState(false);
 
   const toggleFavourite = useCallback((photoId) => {
     setFavouritePhotos((prevFavourites) => ({
@@ -26,9 +25,8 @@ const HomeRoute = ({ photos, topics }) => {
         favouritePhotos={favouritePhotos}
         toggleFavourite={toggleFavourite}
         setDisplayModal={setDisplayModal}
+        setSelectedPhoto={setSelectedPhoto}
       />
-      {/* Conditionally render the PhotoDetailsModal based on displayModal state */}
-      {displayModal && <PhotoDetailsModal closeDisplayModal={setDisplayModal} />}
     </div>
   );
 };
