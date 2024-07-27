@@ -2,7 +2,7 @@ import React from "react";
 import PhotoListItem from "./PhotoListItem";
 import "../styles/PhotoList.scss";
 
-const PhotoList = ({ photos, favouritePhotos, toggleFavourite, setDisplayModal }) => {
+const PhotoList = ({ photos, favouritePhotos, toggleFavourite, setDisplayModal, setSelectedPhoto }) => {
   return (
     <ul className="photo-list">
       {photos.map(photo => (
@@ -15,6 +15,7 @@ const PhotoList = ({ photos, favouritePhotos, toggleFavourite, setDisplayModal }
           toggleFavourite={toggleFavourite}
           // Pass setDisplayModal function to PhotoListItem
           setDisplayModal={setDisplayModal}
+          setSelectedPhoto={setSelectedPhoto}
         />
       ))}
     </ul>
