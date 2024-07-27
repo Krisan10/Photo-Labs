@@ -1,9 +1,8 @@
 import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
-import PhotoList from 'components/PhotoList'; // Import the PhotoList component
+import PhotoList from 'components/PhotoList';
 import PhotoFavButton from 'components/PhotoFavButton';
-import photos from 'mocks/photos'; // Import the mock photos data
 
 const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFavourite }) => {
   if (!photo) {
@@ -11,25 +10,23 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
     return null;
   }
 
-  console.log('Photo Details:', photo);
-
-  // Safely access photo properties with fallback values
   const locationCity = photo.location?.city || 'Unknown city';
   const locationCountry = photo.location?.country || 'Unknown country';
-
-  // Safely destructure user details with fallback values
   const { user = {} } = photo;
   const { username = 'Unknown User', profile = '', name = 'Unknown Name' } = user;
+  const imageUrl = photo.urls?.regular || 'fallback-image-url.jpg';
 
-  // Safely access photo URLs with fallback value
-  const imageUrl = photo.urls?.regular || 'fallback-image-url.jpg'; // Use a real fallback image URL or placeholder
+  const handleClose = () => {
+    console.log('Close button clicked');
+    closeDisplayModal(false);
+  };
 
   return (
     <div className="photo-details-modal">
       <div className="photo-details-modal__top-bar">
         <button 
           className="photo-details-modal__close-button" 
-          onClick={() => closeDisplayModal(false)}
+          onClick={handleClose}
         >
           <img src={closeSymbol} alt="close symbol" />
         </button>
@@ -62,30 +59,15 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
         </div>
       </div>
 
-      {/* Similar Photos Section */}
-      {/* <h2>Similar Photos</h2> */}
-      {/* {photo.similar_photos && photo.similar_photos.length > 0 && (
+      {photo.similar_photos && photo.similar_photos.length > 0 && (
         <div className="photo-details-modal__similar-photos">
+          <h2>Similar Photos</h2>
           <PhotoList 
             photos={photo.similar_photos} 
             favouritePhotos={favouritePhotos}
             toggleFavourite={toggleFavourite}
-            setDisplayModal={() => {}} 
-            setSelectedPhoto={() => {}}
-          />
-        </div>
-      )} */}
-
-      {/* Additional Photos Section */}
-      <h2>Similar Photos</h2>
-      {photos && photos.length > 0 && (
-        <div className="photo-details-modal__more-photos">
-          <PhotoList 
-            photos={photos} 
-            favouritePhotos={favouritePhotos}
-            toggleFavourite={toggleFavourite}
-            setDisplayModal={() => {}} 
-            setSelectedPhoto={() => {}}
+            setDisplayModal={() => {}} // Adjust as needed
+            setSelectedPhoto={() => {}} // Adjust as needed
           />
         </div>
       )}
