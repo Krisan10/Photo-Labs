@@ -14,14 +14,12 @@
 .photo-details-modal__close-button {
   background-color: white;
   border: none;
-  color: white;
+  color: #000; 
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   cursor: pointer;
-  margin-left: 16px;
-  margin-top: 16px;
 }
 
 .photo-details-modal__images {
@@ -37,11 +35,10 @@
 
 .photo-details-modal__top-bar {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  margin: 16px;
-  margin-top: 8px;
   align-items: center;
+  padding: 16px; 
+  border-bottom: 1px solid #e0e0e0; 
 }
 
 .photo-details-modal__photographer-details {
@@ -61,6 +58,7 @@
 .photo-details-modal__photographer-location {
   color: #838383;
 }
+
 .photo-details-modal__photographer-profile {
   object-fit: cover;
   border-radius: 100%;
