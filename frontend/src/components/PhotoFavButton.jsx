@@ -3,17 +3,14 @@ import React, { useCallback, useState } from 'react';
 import FavIcon from './FavIcon';
 import '../styles/PhotoFavButton.scss';
 
-function PhotoFavButton() {
+function PhotoFavButton( {isfavourite, onClick}) {
   const [favourite, setFavourite] = useState(false);
-// handleClick toggles the favourite state between true and false
-  const handleClick = () => {
-    setFavourite(prevFavourite => !prevFavourite);
-  };
+
 
   return (
     // Button to add a click feature to manage the toggle of favourite.
-    <button onClick={handleClick} className="photo-list__fav-button"> 
-    <FavIcon selected={favourite} displayAlert={favourite} />
+    <button onClick={onClick} className="photo-list__fav-button"> 
+     <FavIcon selected={isfavourite} displayAlert={isfavourite} />
 
   </button>
   );
