@@ -1,50 +1,30 @@
-// hooks/useApplicationData.js
 import { useState, useCallback } from 'react';
 
-// Initial state for the application
-const initialState = {
-  displayModal: false,
-  selectedPhoto: null,
-  favouritePhotos: {}
-};
-
 const useApplicationData = () => {
-  const [state, setState] = useState(initialState);
+  const [displayModal, setDisplayModal] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [favouritePhotos, setFavouritePhotos] = useState({});
 
-  // Action to update favourite photos
-  const updateToFavPhotoIds = useCallback((photoId) => {
-    setState((prevState) => ({
-      ...prevState,
-      favouritePhotos: {
-        ...prevState.favouritePhotos,
-        [photoId]: !prevState.favouritePhotos[photoId]
-      }
-    }));
-  }, []);
-
-  // Action to select a photo
-  const setPhotoSelected = useCallback((photo) => {
-    setState((prevState) => ({
-      ...prevState,
-      selectedPhoto: photo,
-      displayModal: true
-    }));
-  }, []);
-
-  // Action to close the photo details modal
-  const onClosePhotoDetailsModal = useCallback(() => {
-    setState((prevState) => ({
-      ...prevState,
-      displayModal: false,
-      selectedPhoto: null
+  const toggleFavourite = useCallback((photoId) => {
+    setFavouritePhotos((prevFavourites) => ({
+      ...prevFavourites,
+      [photoId]: !prevFavourites[photoId]
     }));
   }, []);
 
   return {
-    state,
-    updateToFavPhotoIds,
-    setPhotoSelected,
-    onClosePhotoDetailsModal
+    // Current state of modal visibility
+    displayModal,
+    // Current selected photo
+    selectedPhoto,
+    // Current state of favorite photos.
+    favouritePhotos,
+    // Function to update the modal visibility state
+    setDisplayModal,  
+    // Function to update the selected photo state.
+    setSelectedPhoto,
+    // Function to toggle the favorite status of a photo.
+    toggleFavourite
   };
 };
 
