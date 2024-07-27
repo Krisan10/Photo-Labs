@@ -1,11 +1,11 @@
-import { useReducer, useCallback, useEffect } from 'react';
+import { useReducer, useEffect } from 'react';
 
 const initialState = {
   displayModal: false,
   selectedPhoto: null,
   favouritePhotos: {},
-  photoData: [], // Default empty array
-  topics: [] // Default empty array
+  photoData: [], 
+  topics: [] 
 };
 
 const actionTypes = {
@@ -70,23 +70,23 @@ const useApplicationData = () => {
         dispatch({ type: actionTypes.setTopicsData, payload: data });
       })
       .catch(error => console.error('Error fetching topics:', error));
-  }, [dispatch]);
+  }, []);
 
-  const toggleFavourite = useCallback((photoId) => {
+  const toggleFavourite = (photoId) => {
     dispatch({ type: actionTypes.toggleFavourite, photoId });
-  }, []);
+  };
 
-  const closeDisplayModal = useCallback((isVisible) => {
+  const closeDisplayModal = (isVisible) => {
     dispatch({ type: actionTypes.setDisplayModal, payload: isVisible });
-  }, []);
+  };
 
-  const setSelectedPhoto = useCallback((photo) => {
+  const setSelectedPhoto = (photo) => {
     dispatch({ type: actionTypes.setSelectedPhoto, payload: photo });
-  }, []);
+  };
 
   return {
-    state,  // Ensure state is returned
-    dispatch,  // Ensure dispatch is returned
+    state,
+    dispatch,
     toggleFavourite,
     closeDisplayModal,
     setSelectedPhoto
