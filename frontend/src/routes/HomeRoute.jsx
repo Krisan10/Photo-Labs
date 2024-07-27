@@ -19,7 +19,7 @@ const HomeRoute = ({ photos, topics }) => {
 
   return (
     <div className="home-route">
-      <TopNavigation topics={topics} />  
+      <TopNavigation topics={topics} favouritePhotos={favouritePhotos}/>  
       <h1>Hello World</h1>
       <PhotoList 
         photos={photos} 
