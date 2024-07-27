@@ -28,7 +28,7 @@ const HomeRoute = ({ photos, topics }) => {
         setDisplayModal={setDisplayModal}
       />
       {/* Conditionally render the PhotoDetailsModal based on displayModal state */}
-      {displayModal && <PhotoDetailsModal setDisplayModal={setDisplayModal} />}
+      {displayModal && <PhotoDetailsModal closeDisplayModal={setDisplayModal} />}
     </div>
   );
 };
