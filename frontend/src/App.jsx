@@ -1,41 +1,30 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import './App.scss';
 import HomeRoute from 'routes/HomeRoute';
 import topics from 'mocks/topics';
 import photos from 'mocks/photos';
 import PhotoDetailsModal from 'routes/PhotoDetailsModal';
+import useApplicationData from 'hooks/useApplicationData';
 
 const App = () => {
-  const [displayModal, setDisplayModal] = useState(false); // Use useState to manage modal display
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [favouritePhotos, setFavouritePhotos] = useState({});
-
-  const toggleFavourite = useCallback((photoId) => {
-    setFavouritePhotos((prevFavourites) => ({
-     // callback receives prevFavourites, the current state of favorite photos.
-      ...prevFavourites,
-      [photoId]: !prevFavourites[photoId]
-            // If prevFavourites[photoId] is true (the photo is currently favorited), it becomes false (unfavorited).
-
-    }));
-  }, []);
+  const { state, updateToFavPhotoIds, setPhotoSelected, onClosePhotoDetailsModal } = useApplicationData();
 
   return (
     <div className="App">
       <HomeRoute 
         photos={photos} 
         topics={topics} 
-        setDisplayModal={setDisplayModal}
-        setSelectedPhoto={setSelectedPhoto}
-        favouritePhotos={favouritePhotos} // Pass favouritePhotos to HomeRoute
-        toggleFavourite={toggleFavourite} // Pass toggleFavourite to HomeRoute
+        setDisplayModal={setPhotoSelected}
+        setSelectedPhoto={setPhotoSelected}
+        favouritePhotos={state.favouritePhotos} // favouritePhotos to HomeRoute
+        toggleFavourite={updateToFavPhotoIds} // toggleFavourite to HomeRoute
       />
-      {displayModal && selectedPhoto && (
+      {state.displayModal && state.selectedPhoto && (
         <PhotoDetailsModal 
-          closeDisplayModal={setDisplayModal} 
-          photo={selectedPhoto} // Pass the selected photo to the modal
-          favouritePhotos={favouritePhotos} // Pass favouritePhotos to the modal
-          toggleFavourite={toggleFavourite} // Pass toggleFavourite to the modal
+          closeDisplayModal={onClosePhotoDetailsModal} 
+          photo={state.selectedPhoto} // Pass the selected photo to the modal
+          favouritePhotos={state.favouritePhotos} // favouritePhotos to the modal
+          toggleFavourite={updateToFavPhotoIds} // toggleFavourite to the modal
         />
       )}
     </div>
