@@ -8,6 +8,10 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
   console.log('Selected Photo', photo);
   if (!photo) return null;
 
+  //In case there is no location set
+  const locationCity = photo.location?.city || 'Unknown city';
+  const locationCountry = photo.location?.country || 'Unknown country';
+
   return (
     <div className="photo-details-modal">
       <div className="photo-details-modal__top-bar">
@@ -26,7 +30,7 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
         <img src={photo.urls.regular} alt={`Photo by ${photo.user.username}`} className="photo-details-modal__image" />
         <div className="photo-details-modal__photographer-profile">
           <p className="photo-details-modal__photographer-info">{photo.user.name}</p>
-          <p className="photo-details-modal__photographer-location">{`${photo.location.city}, ${photo.location.country}`}</p>
+          <p className="photo-details-modal__photographer-location">{`${locationCity}, ${locationCountry}`}</p>
         </div>
       </div>
       {photo.similar_photos && photo.similar_photos.length > 0 && (
