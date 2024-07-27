@@ -8,7 +8,7 @@ const FavBadge = ({ isFavPhotoExist }) => {
     <div className='fav-badge'>
       <FavIcon selected={isFavPhotoExist} displayAlert={isFavPhotoExist}/>
     </div>
-  ) 
+  ); 
 };
 
 export default FavBadge;
