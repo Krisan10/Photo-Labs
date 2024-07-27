@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import TopNavigation from 'components/TopNavigationBar';
 import PhotoList from 'components/PhotoList';
+import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 import '../styles/HomeRoute.scss';
 
 const HomeRoute = ({ photos, topics }) => {
-  
   const [favouritePhotos, setFavouritePhotos] = useState({});
+  const [displayModal, setDisplayModal] = useState(false);
 
-  
   const toggleFavourite = useCallback((photoId) => {
     setFavouritePhotos((prevFavourites) => ({
       // callback receives prevFavourites, the current state of favorite photos.
@@ -25,7 +25,10 @@ const HomeRoute = ({ photos, topics }) => {
         photos={photos} 
         favouritePhotos={favouritePhotos}
         toggleFavourite={toggleFavourite}
+        setDisplayModal={setDisplayModal}
       />
+      {/* Conditionally render the PhotoDetailsModal based on displayModal state */}
+      {displayModal && <PhotoDetailsModal setDisplayModal={setDisplayModal} />}
     </div>
   );
 };
