@@ -1,7 +1,5 @@
 import { useReducer, useCallback, useEffect } from 'react';
 
-// Define your initialState and actionTypes here
-
 const initialState = {
   displayModal: false,
   selectedPhoto: null,
@@ -78,7 +76,7 @@ const useApplicationData = () => {
     dispatch({ type: actionTypes.toggleFavourite, photoId });
   }, []);
 
-  const setDisplayModal = useCallback((isVisible) => {
+  const closeDisplayModal = useCallback((isVisible) => {
     dispatch({ type: actionTypes.setDisplayModal, payload: isVisible });
   }, []);
 
@@ -90,7 +88,7 @@ const useApplicationData = () => {
     state,  // Ensure state is returned
     dispatch,  // Ensure dispatch is returned
     toggleFavourite,
-    setDisplayModal,
+    closeDisplayModal,
     setSelectedPhoto
   };
 };

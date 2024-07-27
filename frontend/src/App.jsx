@@ -4,21 +4,21 @@ import HomeRoute from './routes/HomeRoute';
 import useApplicationData from './hooks/useApplicationData';
 
 const App = () => {
-  const { state, dispatch, toggleFavourite, setDisplayModal, setSelectedPhoto } = useApplicationData();
+  const { state, dispatch, toggleFavourite, closeDisplayModal, setSelectedPhoto } = useApplicationData();
 
   return (
     <div>
       <HomeRoute 
         photos={state.photoData} 
         topics={state.topics} 
-        setDisplayModal={setDisplayModal}
+        setDisplayModal={closeDisplayModal}
         setSelectedPhoto={setSelectedPhoto}
         favouritePhotos={state.favouritePhotos}
         toggleFavourite={toggleFavourite}
       />
       {state.displayModal && state.selectedPhoto && (
         <PhotoDetailsModal 
-          closeDisplayModal={setDisplayModal}
+          closeDisplayModal={closeDisplayModal}
           photo={state.selectedPhoto}
           favouritePhotos={state.favouritePhotos}
           toggleFavourite={toggleFavourite}
@@ -29,3 +29,4 @@ const App = () => {
 };
 
 export default App;
+

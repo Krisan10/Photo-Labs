@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
-import PhotoList from 'components/PhotoList';
+import PhotoList from 'components/PhotoList'; // Ensure PhotoList is properly imported
 import PhotoFavButton from 'components/PhotoFavButton';
 
 const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFavourite }) => {
@@ -16,17 +16,12 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
   const { username = 'Unknown User', profile = '', name = 'Unknown Name' } = user;
   const imageUrl = photo.urls?.regular || 'fallback-image-url.jpg';
 
-  const handleClose = () => {
-    console.log('Close button clicked');
-    closeDisplayModal(false);
-  };
-
   return (
     <div className="photo-details-modal">
       <div className="photo-details-modal__top-bar">
         <button 
           className="photo-details-modal__close-button" 
-          onClick={handleClose}
+          onClick={() => closeDisplayModal(false)} // Correctly call closeDisplayModal
         >
           <img src={closeSymbol} alt="close symbol" />
         </button>
@@ -59,6 +54,7 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
         </div>
       </div>
 
+      {/* Similar Photos Section */}
       {photo.similar_photos && photo.similar_photos.length > 0 && (
         <div className="photo-details-modal__similar-photos">
           <h2>Similar Photos</h2>
@@ -66,8 +62,8 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
             photos={photo.similar_photos} 
             favouritePhotos={favouritePhotos}
             toggleFavourite={toggleFavourite}
-            setDisplayModal={() => {}} // Adjust as needed
-            setSelectedPhoto={() => {}} // Adjust as needed
+            setDisplayModal={() => {}} // You can adjust or remove this as needed
+            setSelectedPhoto={() => {}} // You can adjust or remove this as needed
           />
         </div>
       )}
