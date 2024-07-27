@@ -7,24 +7,31 @@ import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 import useApplicationData from 'hooks/useApplicationData';
 
 const App = () => {
-  const { state, updateToFavPhotoIds, setPhotoSelected, onClosePhotoDetailsModal } = useApplicationData();
+  const {
+    displayModal,
+    selectedPhoto,
+    favouritePhotos,
+    setDisplayModal,
+    setSelectedPhoto,
+    toggleFavourite
+  } = useApplicationData();
 
   return (
     <div className="App">
       <HomeRoute 
         photos={photos} 
         topics={topics} 
-        setDisplayModal={setPhotoSelected}
-        setSelectedPhoto={setPhotoSelected}
-        favouritePhotos={state.favouritePhotos} // favouritePhotos to HomeRoute
-        toggleFavourite={updateToFavPhotoIds} // toggleFavourite to HomeRoute
+        setDisplayModal={setDisplayModal}
+        setSelectedPhoto={setSelectedPhoto}
+        favouritePhotos={favouritePhotos} 
+        toggleFavourite={toggleFavourite} 
       />
-      {state.displayModal && state.selectedPhoto && (
+      {displayModal && selectedPhoto && (
         <PhotoDetailsModal 
-          closeDisplayModal={onClosePhotoDetailsModal} 
-          photo={state.selectedPhoto} // Pass the selected photo to the modal
-          favouritePhotos={state.favouritePhotos} // favouritePhotos to the modal
-          toggleFavourite={updateToFavPhotoIds} // toggleFavourite to the modal
+          closeDisplayModal={setDisplayModal} 
+          photo={selectedPhoto}
+          favouritePhotos={favouritePhotos}
+          toggleFavourite={toggleFavourite}
         />
       )}
     </div>
