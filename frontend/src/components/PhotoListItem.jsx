@@ -8,24 +8,26 @@ const PhotoListItem = ({ photo, isFavourite, toggleFavourite, setDisplayModal, s
   const { regular: imageSource } = urls;
 
   return (
+    
     <div className="photo-list__item" key={id}>
-      <div className="photo-list-item__fav-button">
-        <PhotoFavButton
-          // Marks the photo as a favorite, using props to control its state and handle clicks.
+      <PhotoFavButton
           isFavourite={isFavourite}
           onClick={() => toggleFavourite(id)}
+          className="photo-list__fav-icon" 
+        />
+      <div className="photo-list-item__image-container">
+
+        <img 
+          src={imageSource} 
+          alt={`${location?.city || 'Unknown city'}, ${location?.country || 'Unknown country'}`} 
+          className="photo-list__image"
+          // Trigger modal display when the image is clicked
+          onClick={() => {
+            setSelectedPhoto(photo); // Set the selected photo details
+            setDisplayModal(true); // Show the modal
+          }}
         />
       </div>
-      <img 
-        src={imageSource} 
-        alt={`${location.city}, ${location.country}`} 
-        className="photo-list__image"
-        // Trigger modal display when the image is clicked
-        onClick={() => {
-          setSelectedPhoto(photo); // Set the selected photo details
-          setDisplayModal(true); // Show the modal
-        }}
-      />
       <div className="photo-list__user-details">
         <img 
           src={profile} 
@@ -34,7 +36,7 @@ const PhotoListItem = ({ photo, isFavourite, toggleFavourite, setDisplayModal, s
         />
         <div className="photo-list__user-info">
           <p className="photo-list__name">{name}</p>
-          <p className="photo-list__user-location">{`${location.city}, ${location.country}`}</p>
+          <p className="photo-list__user-location">{`${location?.city || 'Unknown city'}, ${location?.country || 'Unknown country'}`}</p>
         </div>
       </div>
     </div>
