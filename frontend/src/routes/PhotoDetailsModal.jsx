@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
+import PhotoList from 'components/PhotoList';
 
 const PhotoDetailsModal = ({ closeDisplayModal, photo }) => {
   console.log('Selected Photo', photo);
@@ -20,9 +21,20 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo }) => {
           <p className="photo-details-modal__photographer-info">{photo.user.name}</p>
           <p className="photo-details-modal__photographer-location">{`${photo.location.city}, ${photo.location.country}`}</p>
         </div>
+      </div>
+      {photo.similar_photos && photo.similar_photos.length > 0 && (
+        <div className="photo-details-modal__similar-photos">
+          <h2>Similar Photos</h2>
+          <PhotoList 
+            photos={photo.similar_photos} 
+            favouritePhotos={{}} // Add this if similar photos don't need to be favorited
+            toggleFavourite={() => {}} // Provide an empty function if favoriting isn't needed
+          />
         </div>
+      )}
     </div>
   );
 };
 
 export default PhotoDetailsModal;
+
