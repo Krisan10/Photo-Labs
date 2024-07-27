@@ -2,8 +2,9 @@ import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
 import PhotoList from 'components/PhotoList';
+import PhotoFavButton from 'components/PhotoFavButton';
 
-const PhotoDetailsModal = ({ closeDisplayModal, photo }) => {
+const PhotoDetailsModal = ({ closeDisplayModal, photo, toggleFavourite }) => {
   console.log('Selected Photo', photo);
   if (!photo) return null;
 
@@ -29,12 +30,17 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo }) => {
             photos={photo.similar_photos} 
             favouritePhotos={{}} // Add this if similar photos don't need to be favorited
             toggleFavourite={() => {}} // Provide an empty function if favoriting isn't needed
+            setDisplayModal={() => {}} // Provide an empty function if modal handling isn't needed
+            setSelectedPhoto={() => {}} // Provide an empty function if photo selection isn't needed
           />
         </div>
       )}
+      <PhotoFavButton 
+        isFavourite={photo.isFavourite} 
+        onClick={() => toggleFavourite(photo.id)} 
+      />
     </div>
   );
 };
 
 export default PhotoDetailsModal;
-
