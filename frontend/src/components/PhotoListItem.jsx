@@ -2,7 +2,7 @@ import React from "react";
 import PhotoFavButton from './PhotoFavButton';
 import "../styles/PhotoListItem.scss";
 
-const PhotoListItem = ({ photo, isFavourite, toggleFavourite, setDisplayModal }) => {
+const PhotoListItem = ({ photo, isFavourite, toggleFavourite, setDisplayModal, setSelectedPhoto }) => {
   const { id, user, urls, location } = photo;
   const { username, profile, name } = user;
   const { regular: imageSource } = urls;
@@ -21,7 +21,10 @@ const PhotoListItem = ({ photo, isFavourite, toggleFavourite, setDisplayModal })
         alt={`${location.city}, ${location.country}`} 
         className="photo-list__image"
         // Trigger modal display when the image is clicked
-        onClick={() => setDisplayModal(true)}
+        onClick={() => {
+          setSelectedPhoto(photo); // Set the selected photo details
+          setDisplayModal(true); // Show the modal
+        }}
       />
       <div className="photo-list__user-details">
         <img 
