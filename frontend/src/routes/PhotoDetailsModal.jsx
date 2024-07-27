@@ -4,18 +4,24 @@ import closeSymbol from '../assets/closeSymbol.svg';
 import PhotoList from 'components/PhotoList';
 import PhotoFavButton from 'components/PhotoFavButton';
 
-const PhotoDetailsModal = ({ closeDisplayModal, photo, toggleFavourite }) => {
+const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFavourite }) => {
   console.log('Selected Photo', photo);
   if (!photo) return null;
 
   return (
     <div className="photo-details-modal">
-      <button 
-        className="photo-details-modal__close-button" 
-        onClick={() => closeDisplayModal(false)} // Close modal on click
-      >
-        <img src={closeSymbol} alt="close symbol" />
-      </button>
+      <div className="photo-details-modal__top-bar">
+        <button 
+          className="photo-details-modal__close-button" 
+          onClick={() => closeDisplayModal(false)} // Close modal on click
+        >
+          <img src={closeSymbol} alt="close symbol" />
+        </button>
+        <PhotoFavButton 
+          isFavourite={!!favouritePhotos[photo.id]} 
+          onClick={() => toggleFavourite(photo.id)} 
+        />
+      </div>
       <div className="photo-details-modal__content">
         <img src={photo.urls.regular} alt={`Photo by ${photo.user.username}`} className="photo-details-modal__image" />
         <div className="photo-details-modal__photographer-profile">
@@ -28,17 +34,13 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, toggleFavourite }) => {
           <h2>Similar Photos</h2>
           <PhotoList 
             photos={photo.similar_photos} 
-            favouritePhotos={{}} // Add this if similar photos don't need to be favorited
-            toggleFavourite={() => {}} // Provide an empty function if favoriting isn't needed
-            setDisplayModal={() => {}} // Provide an empty function if modal handling isn't needed
-            setSelectedPhoto={() => {}} // Provide an empty function if photo selection isn't needed
+            favouritePhotos={favouritePhotos}
+            toggleFavourite={toggleFavourite}
+            setDisplayModal={() => {}} // Provide an empty function if setDisplayModal is not needed
+            setSelectedPhoto={() => {}} // Provide an empty function if setSelectedPhoto is not needed
           />
         </div>
       )}
-      <PhotoFavButton 
-        isFavourite={photo.isFavourite} 
-        onClick={() => toggleFavourite(photo.id)} 
-      />
     </div>
   );
 };
