@@ -4,6 +4,7 @@ import PhotoList from 'components/PhotoList';
 import '../styles/HomeRoute.scss';
 
 const HomeRoute = ({ photos, topics, setDisplayModal, setSelectedPhoto, favouritePhotos, toggleFavourite }) => {
+
   return (
     <div className="home-route">
       <TopNavigation topics={topics} favouritePhotos={favouritePhotos}/>  
