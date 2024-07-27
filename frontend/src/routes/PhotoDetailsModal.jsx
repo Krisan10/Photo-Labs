@@ -1,8 +1,9 @@
 import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
-import PhotoList from 'components/PhotoList';
+import PhotoList from 'components/PhotoList'; // Import the PhotoList component
 import PhotoFavButton from 'components/PhotoFavButton';
+import photos from 'mocks/photos'; // Import the mock photos data
 
 const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFavourite }) => {
   if (!photo) {
@@ -60,11 +61,27 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
           </div>
         </div>
       </div>
-      {photo.similar_photos && photo.similar_photos.length > 0 && (
+
+      {/* Similar Photos Section */}
+      {/* <h2>Similar Photos</h2> */}
+      {/* {photo.similar_photos && photo.similar_photos.length > 0 && (
         <div className="photo-details-modal__similar-photos">
-          <h2>Similar Photos</h2>
           <PhotoList 
             photos={photo.similar_photos} 
+            favouritePhotos={favouritePhotos}
+            toggleFavourite={toggleFavourite}
+            setDisplayModal={() => {}} 
+            setSelectedPhoto={() => {}}
+          />
+        </div>
+      )} */}
+
+      {/* Additional Photos Section */}
+      <h2>Similar Photos</h2>
+      {photos && photos.length > 0 && (
+        <div className="photo-details-modal__more-photos">
+          <PhotoList 
+            photos={photos} 
             favouritePhotos={favouritePhotos}
             toggleFavourite={toggleFavourite}
             setDisplayModal={() => {}} 
