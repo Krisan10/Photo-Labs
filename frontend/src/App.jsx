@@ -1,36 +1,26 @@
 import React from 'react';
-import './App.scss';
-import HomeRoute from 'routes/HomeRoute';
-import topics from 'mocks/topics';
-import photos from 'mocks/photos';
-import PhotoDetailsModal from 'routes/PhotoDetailsModal';
-import useApplicationData from 'hooks/useApplicationData';
+import PhotoDetailsModal from './routes/PhotoDetailsModal'; 
+import HomeRoute from './routes/HomeRoute';
+import useApplicationData from './hooks/useApplicationData';
 
 const App = () => {
-  const {
-    displayModal,
-    selectedPhoto,
-    favouritePhotos,
-    setDisplayModal,
-    setSelectedPhoto,
-    toggleFavourite
-  } = useApplicationData();
+  const { state, dispatch, toggleFavourite, setDisplayModal, setSelectedPhoto } = useApplicationData();
 
   return (
-    <div className="App">
+    <div>
       <HomeRoute 
-        photos={photos} 
-        topics={topics} 
+        photos={state.photoData} 
+        topics={state.topics} 
         setDisplayModal={setDisplayModal}
         setSelectedPhoto={setSelectedPhoto}
-        favouritePhotos={favouritePhotos} 
-        toggleFavourite={toggleFavourite} 
+        favouritePhotos={state.favouritePhotos}
+        toggleFavourite={toggleFavourite}
       />
-      {displayModal && selectedPhoto && (
+      {state.displayModal && state.selectedPhoto && (
         <PhotoDetailsModal 
-          closeDisplayModal={setDisplayModal} 
-          photo={selectedPhoto}
-          favouritePhotos={favouritePhotos}
+          closeDisplayModal={setDisplayModal}
+          photo={state.selectedPhoto}
+          favouritePhotos={state.favouritePhotos}
           toggleFavourite={toggleFavourite}
         />
       )}
