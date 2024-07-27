@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Import useState
+import React, { useState, useCallback } from 'react'; // Import useState and useCallback
 import './App.scss';
 import HomeRoute from 'routes/HomeRoute';
 import topics from 'mocks/topics';
@@ -11,7 +11,17 @@ import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 
 const App = () => {
   const [displayModal, setDisplayModal] = useState(false); // Use useState to manage modal display
-  const [selectedPhoto, setSelectedPhoto] = useState(null); // State to hold the selected photo
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [favouritePhotos, setFavouritePhotos] = useState({});
+
+  const toggleFavourite = useCallback((photoId) => {
+    setFavouritePhotos((prevFavourites) => ({
+      // callback receives prevFavourites, the current state of favorite photos.
+      ...prevFavourites,
+      [photoId]: !prevFavourites[photoId]
+      // If prevFavourites[photoId] is true (the photo is currently favorited), it becomes false (unfavorited).
+    }));
+  }, []);
 
   return (
     <div className="App">
@@ -19,12 +29,15 @@ const App = () => {
         photos={photos} 
         topics={topics} 
         setDisplayModal={setDisplayModal} // Pass setDisplayModal to HomeRoute
-        setSelectedPhoto={setSelectedPhoto} // Pass setSelectedPhoto to HomeRoute
+        setSelectedPhoto={setSelectedPhoto}
+        toggleFavourite={toggleFavourite} // Pass toggleFavourite to HomeRoute
+        favouritePhotos={favouritePhotos} // Pass favouritePhotos to HomeRoute
       />
       {displayModal && selectedPhoto && (
         <PhotoDetailsModal 
-          closeDisplayModal={setDisplayModal} // Pass setDisplayModal to PhotoDetailsModal
-          photo={selectedPhoto} // Pass the selected photo to the modal
+          closeDisplayModal={setDisplayModal} 
+          photo={{ ...selectedPhoto, isFavourite: !!favouritePhotos[selectedPhoto.id] }} // Pass the selected photo to the modal
+          toggleFavourite={toggleFavourite} // Pass toggleFavourite function to the modal
         />
       )}
     </div>
