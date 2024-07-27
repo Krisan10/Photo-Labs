@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import TopNavigation from 'components/TopNavigationBar';
 import PhotoList from 'components/PhotoList';
-import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 import '../styles/HomeRoute.scss';
 
 const HomeRoute = ({ photos, topics, setDisplayModal, setSelectedPhoto }) => {
