@@ -11,15 +11,21 @@ import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 
 const App = () => {
   const [displayModal, setDisplayModal] = useState(false); // Use useState to manage modal display
-
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   return (
     <div className="App">
       <HomeRoute 
         photos={photos} 
         topics={topics} 
         setDisplayModal={setDisplayModal} // Pass setDisplayModal to HomeRoute
+        setSelectedPhoto={setSelectedPhoto}
       />
-      {displayModal && <PhotoDetailsModal setDisplayModal={setDisplayModal} />}
+      {displayModal && selectedPhoto && (
+        <PhotoDetailsModal 
+          closeDisplayModal={setDisplayModal} 
+          photo={selectedPhoto} // Pass the selected photo to the modal
+        />
+      )}
     </div>
   );
 };
