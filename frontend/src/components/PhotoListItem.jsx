@@ -2,7 +2,7 @@ import React from "react";
 import PhotoFavButton from './PhotoFavButton';
 import "../styles/PhotoListItem.scss";
 
-const PhotoListItem = ({ photo }) => {
+const PhotoListItem = ({ photo, isFavourite, toggleFavourite }) => {
   const { id, user, urls, location } = photo;
   const { username, profile, name } = user;
   const { regular: imageSource } = urls;
@@ -10,7 +10,10 @@ const PhotoListItem = ({ photo }) => {
   return (
     <div className="photo-list__item" key={id}>
       <div className="photo-list-item__fav-button">
-        <PhotoFavButton />
+        <PhotoFavButton
+          isFavourite={isFavourite}
+          onClick={() => toggleFavourite(id)}
+        />
       </div>
       <img src={imageSource} alt={`${location.city}, ${location.country}`} className="photo-list__image" />
       <div className="photo-list__user-details">
@@ -25,3 +28,4 @@ const PhotoListItem = ({ photo }) => {
 };
 
 export default PhotoListItem;
+
