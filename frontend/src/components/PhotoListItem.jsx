@@ -11,6 +11,7 @@ const PhotoListItem = ({ photo, isFavourite, toggleFavourite }) => {
     <div className="photo-list__item" key={id}>
       <div className="photo-list-item__fav-button">
         <PhotoFavButton
+        // Marks the photo as a favorite, using props to control its state and handle clicks.
           isFavourite={isFavourite}
           onClick={() => toggleFavourite(id)}
         />
