@@ -1,20 +1,23 @@
-import { useReducer, useCallback } from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 
-// Define initial state
+// Define your initialState and actionTypes here
+
 const initialState = {
   displayModal: false,
   selectedPhoto: null,
-  favouritePhotos: {}
+  favouritePhotos: {},
+  photoData: [], // Default empty array
+  topics: [] // Default empty array
 };
 
-// Define action types using camelCase
 const actionTypes = {
   toggleFavourite: 'TOGGLE_FAVOURITE',
   setDisplayModal: 'SET_DISPLAY_MODAL',
-  setSelectedPhoto: 'SET_SELECTED_PHOTO'
+  setSelectedPhoto: 'SET_SELECTED_PHOTO',
+  setPhotoData: 'SET_PHOTO_DATA',
+  setTopicsData: 'SET_TOPICS_DATA'
 };
 
-// Define the reducer function
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.toggleFavourite:
@@ -35,16 +38,42 @@ const reducer = (state, action) => {
         ...state,
         selectedPhoto: action.payload
       };
+    case actionTypes.setPhotoData:
+      return {
+        ...state,
+        photoData: action.payload
+      };
+    case actionTypes.setTopicsData:
+      return {
+        ...state,
+        topics: action.payload
+      };
     default:
       return state;
   }
 };
 
 const useApplicationData = () => {
-  // Initialize the reducer with the initial state and reducer function
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // Define callback functions to dispatch actions
+  useEffect(() => {
+    // Fetch photo data and dispatch it to the reducer
+    fetch('/api/photos')
+      .then(response => response.json())
+      .then(data => {
+        dispatch({ type: actionTypes.setPhotoData, payload: data });
+      })
+      .catch(error => console.error('Error fetching photos:', error));
+
+    // Fetch topics data and dispatch it to the reducer
+    fetch('/api/topics')
+      .then(response => response.json())
+      .then(data => {
+        dispatch({ type: actionTypes.setTopicsData, payload: data });
+      })
+      .catch(error => console.error('Error fetching topics:', error));
+  }, [dispatch]);
+
   const toggleFavourite = useCallback((photoId) => {
     dispatch({ type: actionTypes.toggleFavourite, photoId });
   }, []);
@@ -58,12 +87,11 @@ const useApplicationData = () => {
   }, []);
 
   return {
-    displayModal: state.displayModal,
-    selectedPhoto: state.selectedPhoto,
-    favouritePhotos: state.favouritePhotos,
+    state,  // Ensure state is returned
+    dispatch,  // Ensure dispatch is returned
+    toggleFavourite,
     setDisplayModal,
-    setSelectedPhoto,
-    toggleFavourite
+    setSelectedPhoto
   };
 };
 
