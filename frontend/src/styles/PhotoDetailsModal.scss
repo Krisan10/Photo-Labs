@@ -11,10 +11,17 @@
   border-radius: 12px;
 }
 
+.photo-details-modal__top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px;
+}
+
 .photo-details-modal__close-button {
   background-color: white;
   border: none;
-  color: #000; 
+  color: white;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -22,55 +29,61 @@
   cursor: pointer;
 }
 
-.photo-details-modal__images {
-  margin-left: 36px;
-  margin-top: 8px;
+.photo-details-modal__image-container {
+  position: relative; 
+  margin: 16px;
+}
+
+.photo-details-modal__image-container.photo-details-modal__fav-icon{
+  position: absolute;
+  scale: 100%;
 }
 
 .photo-details-modal__image {
-  max-width: 95%;
+  max-width: 100%;
   border-radius: 8px;
-  padding-left: 25px;
 }
 
-.photo-details-modal__top-bar {
+.photo-details-modal__fav-icon {
+  position: absolute; 
+  top: 16px; 
+  left: 16px; 
+  background-color: #EEEEEE;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  z-index: 10; 
+}
+
+.photo-details-modal__content {
+  margin: 16px;
+}
+
+.photo-details-modal__photographer-profile {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px; 
-  border-bottom: 1px solid #e0e0e0; 
 }
 
-.photo-details-modal__photographer-details {
+.photo-details-modal__user-profile {
+  width: 50px;         
+  height: 50px;        
+  border-radius: 50%; 
+  object-fit: cover;   
+  margin-right: 16px; 
+}
+
+.photo-details-modal__photographer-info {
   display: flex;
-  font-size: 16px;
+  flex-direction: column;
 }
 
-.photo-details-modal__header {
-  font-size: 18px;
-  font-weight: 500;
-  color: #1e1e1e;
-  margin-top: 24px;
-  margin-bottom: 24px;
-  width: 90%;
+.photo-details-modal__photographer-name {
+  font-weight: 700;
+  font-size: 16px;
 }
 
 .photo-details-modal__photographer-location {
   color: #838383;
-}
-
-.photo-details-modal__photographer-profile {
-  object-fit: cover;
-  border-radius: 100%;
-  vertical-align: middle;
-  margin-right: 8px;
-  width: 40px;
-  height: 40px;
-}
-
-.photo-details-modal__photographer-info {
-  margin-top: 5px;
-  font-weight: 700;
-  font-size: 12px;
-  margin-left: 8px;
 }
