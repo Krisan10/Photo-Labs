@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/TopNavigationBar.scss';
 import FavBadge from './FavBadge';
 import TopicList from './TopicList';
 
-const TopNavigation = ({ topics, favouritePhotos }) => {
+const TopNavigationBar= ({ topics, favouritePhotos, onTopicSelect }) => {
   /* Returns an array of values from favouritePhotos
      .some() checks if one of those values is true
      isFavourite returns the value of isFavourite  
@@ -13,10 +13,10 @@ const TopNavigation = ({ topics, favouritePhotos }) => {
   return (
     <div className="top-nav-bar">
       <span className="top-nav-bar__logo">PhotoLabs</span>
-      <TopicList topics={topics} />
+      <TopicList topics={topics} onTopicClick={onTopicSelect} /> {/* Pass the handler */}
       <FavBadge isFavPhotoExist={hasFavourites} />
     </div>
   );
 };
 
-export default TopNavigation;
+export default TopNavigationBar;
