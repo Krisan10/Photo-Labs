@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PhotoDetailsModal from './routes/PhotoDetailsModal'; 
 import HomeRoute from './routes/HomeRoute';
 import useApplicationData from './hooks/useApplicationData';
+import TopNavigationBar from './components/TopNavigationBar';
 
 const App = () => {
   const { state, dispatch, toggleFavourite, closeDisplayModal, setSelectedPhoto } = useApplicationData();
+  const [selectedTopic, setSelectedTopic] = useState(null);
+
+  const handleTopicSelect = (topic) => {
+    setSelectedTopic(topic);
+  };
+
+  const filteredPhotos = selectedTopic 
+    ? state.photoData.filter(photo => {
+        return String(photo.topic) === String(selectedTopic.id);
+      })
+    : state.photoData;
+
 
   return (
     <div>
-      <HomeRoute 
-        photos={state.photoData} 
+      <TopNavigationBar
         topics={state.topics} 
+        favouritePhotos={state.favouritePhotos} 
+        onTopicSelect={handleTopicSelect}
+      />
+      <HomeRoute 
+        photos={filteredPhotos}
         setDisplayModal={closeDisplayModal}
         setSelectedPhoto={setSelectedPhoto}
         favouritePhotos={state.favouritePhotos}
@@ -29,3 +46,4 @@ const App = () => {
 };
 
 export default App;
+
