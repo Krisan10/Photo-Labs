@@ -60,7 +60,6 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
         </div>
       </div>
 
-      {/* Additional Photos Section */}
       <h2>Similar</h2>
       {photos && photos.length > 0 && (
         <div className="photo-details-modal__more-photos">
