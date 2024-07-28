@@ -4,8 +4,8 @@ const initialState = {
   displayModal: false,
   selectedPhoto: null,
   favouritePhotos: {},
-  photoData: [], 
-  topics: [] 
+  photoData: [],
+  topics: []
 };
 
 const actionTypes = {
@@ -59,17 +59,19 @@ const useApplicationData = () => {
     fetch('/api/photos')
       .then(response => response.json())
       .then(data => {
-        dispatch({ type: actionTypes.setPhotoData, payload: data });
+        fetch('/api/topics')
+          .then(response => response.json())
+          .then(topics => {
+            const photosWithTopics = data.map(photo => ({
+              ...photo,
+              topic: extractTopicFromUrl(photo.urls.full)
+            }));
+            dispatch({ type: actionTypes.setPhotoData, payload: photosWithTopics });
+            dispatch({ type: actionTypes.setTopicsData, payload: topics });
+          })
+          .catch(error => console.error('Error fetching topics:', error));
       })
       .catch(error => console.error('Error fetching photos:', error));
-
-    // Fetch topics data and dispatch it to the reducer
-    fetch('/api/topics')
-      .then(response => response.json())
-      .then(data => {
-        dispatch({ type: actionTypes.setTopicsData, payload: data });
-      })
-      .catch(error => console.error('Error fetching topics:', error));
   }, []);
 
   const toggleFavourite = (photoId) => {
@@ -82,6 +84,16 @@ const useApplicationData = () => {
 
   const setSelectedPhoto = (photo) => {
     dispatch({ type: actionTypes.setSelectedPhoto, payload: photo });
+  };
+
+  const extractTopicFromUrl = (url) => {
+    const topics = ['people', 'nature', 'travel', 'animals', 'fashion'];
+    for (let topic of topics) {
+      if (url.includes(topic)) {
+        return topic;
+      }
+    }
+    return 'unknown';
   };
 
   return {
