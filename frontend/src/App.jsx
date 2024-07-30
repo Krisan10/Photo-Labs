@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PhotoDetailsModal from './routes/PhotoDetailsModal'; 
 import HomeRoute from './routes/HomeRoute';
 import useApplicationData from './hooks/useApplicationData';
-import TopNavigationBar from './components/TopNavigationBar';
 
 const App = () => {
   const { state, dispatch, toggleFavourite, closeDisplayModal, setSelectedPhoto } = useApplicationData();
@@ -13,24 +12,21 @@ const App = () => {
   };
 
   const filteredPhotos = selectedTopic 
-  ? state.photoData.filter(photo => {
-      return String(photo.topic) === String(selectedTopic.id);
-    })
-  : state.photoData;
-  
+    ? state.photoData.filter(photo => {
+        return String(photo.topic) === String(selectedTopic.id);
+      })
+    : state.photoData;
+
   return (
     <div>
-      <TopNavigationBar
-        topics={state.topics} 
-        favouritePhotos={state.favouritePhotos} 
-        onTopicSelect={handleTopicSelect}
-      />
       <HomeRoute 
         photos={filteredPhotos}
+        topics={state.topics}
         setDisplayModal={closeDisplayModal}
         setSelectedPhoto={setSelectedPhoto}
         favouritePhotos={state.favouritePhotos}
         toggleFavourite={toggleFavourite}
+        onTopicSelect={handleTopicSelect} // Pass handleTopicSelect to HomeRoute
       />
       {state.displayModal && state.selectedPhoto && (
         <PhotoDetailsModal 
