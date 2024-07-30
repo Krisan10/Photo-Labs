@@ -13,12 +13,11 @@ const App = () => {
   };
 
   const filteredPhotos = selectedTopic 
-    ? state.photoData.filter(photo => {
-        return String(photo.topic) === String(selectedTopic.id);
-      })
-    : state.photoData;
-
-
+  ? state.photoData.filter(photo => {
+      return String(photo.topic) === String(selectedTopic.id);
+    })
+  : state.photoData;
+  
   return (
     <div>
       <TopNavigationBar
@@ -39,6 +38,7 @@ const App = () => {
           photo={state.selectedPhoto}
           favouritePhotos={state.favouritePhotos}
           toggleFavourite={toggleFavourite}
+          allPhotos={state.photoData} 
         />
       )}
     </div>
@@ -46,4 +46,3 @@ const App = () => {
 };
 
 export default App;
-
