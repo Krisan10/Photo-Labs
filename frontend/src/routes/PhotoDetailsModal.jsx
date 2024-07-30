@@ -4,7 +4,7 @@ import closeSymbol from '../assets/closeSymbol.svg';
 import PhotoList from 'components/PhotoList'; // Import the PhotoList component
 import PhotoFavButton from 'components/PhotoFavButton';
 
-const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFavourite }) => {
+const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFavourite, allPhotos }) => {
   if (!photo) {
     console.error('No photo data available.');
     return null;
@@ -20,6 +20,9 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
 
   // Safely access photo URLs with fallback value
   const imageUrl = photo.urls?.regular || 'fallback-image-url.jpg'; // Use a real fallback image URL or placeholder
+
+  // Find similar photos from the API data
+  const similarPhotos = allPhotos.filter(p => p.topic === photo.topic && p.id !== photo.id);
 
   return (
     <div className="photo-details-modal">
@@ -60,13 +63,13 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
       </div>
 
       <h2>Similar</h2>
-      {photo.similar_photos && photo.similar_photos.length > 0 && (
+      {similarPhotos.length > 0 && (
         <div className="photo-details-modal__more-photos">
           <PhotoList 
-            photos={photo.similar_photos} 
+            photos={similarPhotos} 
             favouritePhotos={favouritePhotos}
             toggleFavourite={toggleFavourite}
-            setDisplayModal={() => {}} 
+            setDisplayModal={closeDisplayModal}
             setSelectedPhoto={() => {}}
           />
         </div>
