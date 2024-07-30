@@ -3,7 +3,7 @@ import '../styles/TopNavigationBar.scss';
 import FavBadge from './FavBadge';
 import TopicList from './TopicList';
 
-const TopNavigationBar= ({ topics, favouritePhotos, onTopicSelect }) => {
+const TopNavigationBar= ({ topics, favouritePhotos, onTopicSelect, topicFromUrl }) => {
   /* Returns an array of values from favouritePhotos
      .some() checks if one of those values is true
      isFavourite returns the value of isFavourite  

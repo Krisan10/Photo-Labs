@@ -4,7 +4,7 @@ import HomeRoute from './routes/HomeRoute';
 import useApplicationData from './hooks/useApplicationData';
 
 const App = () => {
-  const { state, dispatch, toggleFavourite, closeDisplayModal, setSelectedPhoto } = useApplicationData();
+  const { state, dispatch, toggleFavourite, closeDisplayModal, setSelectedPhoto, extractTopicFromUrl } = useApplicationData();
   const [selectedTopic, setSelectedTopic] = useState(null);
 
   const handleTopicSelect = (topic) => {
@@ -26,7 +26,8 @@ const App = () => {
         setSelectedPhoto={setSelectedPhoto}
         favouritePhotos={state.favouritePhotos}
         toggleFavourite={toggleFavourite}
-        onTopicSelect={handleTopicSelect} // Pass handleTopicSelect to HomeRoute
+        onTopicSelect={handleTopicSelect} 
+        topicFromUrl={extractTopicFromUrl}
       />
       {state.displayModal && state.selectedPhoto && (
         <PhotoDetailsModal 
