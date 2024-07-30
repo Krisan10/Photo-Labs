@@ -101,7 +101,8 @@ const useApplicationData = () => {
     dispatch,
     toggleFavourite,
     closeDisplayModal,
-    setSelectedPhoto
+    setSelectedPhoto, 
+    extractTopicFromUrl
   };
 };
 
