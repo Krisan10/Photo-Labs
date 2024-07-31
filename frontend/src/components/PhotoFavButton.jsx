@@ -8,9 +8,9 @@ function PhotoFavButton( {isFavourite, onClick}) {
 
   return (
     // Button to add a click feature to manage the toggle of favourite.
-    <button onClick={onClick} className="photo-list__fav-button"> 
+    <div onClick={onClick} className="photo-list__fav-button"> 
       <FavIcon selected={isFavourite} displayAlert={isFavourite} />
-    </button>
+    </div>
   );
 }
 
