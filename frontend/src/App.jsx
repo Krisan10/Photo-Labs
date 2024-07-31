@@ -1,41 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PhotoDetailsModal from './routes/PhotoDetailsModal'; 
 import HomeRoute from './routes/HomeRoute';
 import useApplicationData from './hooks/useApplicationData';
 
 const App = () => {
-  const { state, dispatch, toggleFavourite, closeDisplayModal, setSelectedPhoto, extractTopicFromUrl } = useApplicationData();
-  const [selectedTopic, setSelectedTopic] = useState(null);
-
-  const handleTopicSelect = (topic) => {
-    setSelectedTopic(topic);
-  };
-
-  const filteredPhotos = selectedTopic 
-    ? state.photoData.filter(photo => {
-        return String(photo.topic) === String(selectedTopic.id);
-      })
-    : state.photoData;
+  const { state, toggleFavourite, closeDisplayModal, setModal, setSelectedTopic } = useApplicationData();
+  const modal = state.displayModal; // Updated to match state property
+  const favourites = state.favouritePhotos; // Updated to match state property
+  const photos = state.photoData; // State variable for photos
+  const topics = state.topics; // State variable for topics
 
   return (
-    <div>
+    <div className="App">
       <HomeRoute 
-        photos={filteredPhotos}
-        topics={state.topics}
-        setDisplayModal={closeDisplayModal}
-        setSelectedPhoto={setSelectedPhoto}
-        favouritePhotos={state.favouritePhotos}
-        toggleFavourite={toggleFavourite}
-        onTopicSelect={handleTopicSelect} 
-        topicFromUrl={extractTopicFromUrl}
+        photos={photos} 
+        topics={topics} 
+        toggleFavourite={toggleFavourite} 
+        setDisplayModal={setModal} // Set modal visibility
+        setSelectedPhoto={setModal} // Used to set the selected photo
+        favouritePhotos={favourites} 
+        onTopicSelect={setSelectedTopic} 
+        topicFromUrl={state.selectedTopicId}
       />
-      {state.displayModal && state.selectedPhoto && (
+
+      {modal && (
         <PhotoDetailsModal 
-          closeDisplayModal={closeDisplayModal}
-          photo={state.selectedPhoto}
-          favouritePhotos={state.favouritePhotos}
-          toggleFavourite={toggleFavourite}
-          allPhotos={state.photoData} 
+          photo={modal} 
+          toggleFavourite={toggleFavourite} 
+          favouritePhotos={favourites} 
+          closeDisplayModal={closeDisplayModal} 
+          allPhotos={photos} 
         />
       )}
     </div>

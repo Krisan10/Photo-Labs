@@ -7,32 +7,36 @@ const PhotoListItem = ({ photo, isFavourite, toggleFavourite, setDisplayModal, s
   const { username, profile, name } = user;
   const { regular: imageSource } = urls;
 
-  return (
-    
-    <div className="photo-list__item" key={id}>
-      <PhotoFavButton
-          isFavourite={isFavourite}
-          onClick={() => toggleFavourite(id)}
-          className="photo-list__fav-icon" 
-        />
-      <div className="photo-list-item__image-container">
+  console.log('setSelectedPhoto:', setSelectedPhoto); // Check this output
 
+  return (
+    <div className="photo-list__item">
+      <PhotoFavButton
+        isFavourite={isFavourite}
+        onClick={() => toggleFavourite(id)}
+        className="photo-list__fav-icon"
+      />
+      <div className="photo-list-item__image-container">
         <img 
-          src={imageSource} 
-          alt={`${location?.city || 'Unknown city'}, ${location?.country || 'Unknown country'}`} 
+          src={imageSource}
+          alt={`${location?.city || 'Unknown city'}, ${location?.country || 'Unknown country'}`}
           className="photo-list__image"
-          // Trigger modal display when the image is clicked
           onClick={() => {
-            setSelectedPhoto(photo); // Set the selected photo details
+            console.log('Clicked on photo, setting selected photo'); // Debug log
+            if (typeof setSelectedPhoto === 'function') {
+              setSelectedPhoto(photo); // Ensure this is a function
+            } else {
+              console.error('setSelectedPhoto is not a function'); // Debug log
+            }
             setDisplayModal(true); // Show the modal
           }}
         />
       </div>
       <div className="photo-list__user-details">
         <img 
-          src={profile} 
-          alt={`${username}'s profile`} 
-          className="photo-list__user-profile" 
+          src={profile}
+          alt={`${username}'s profile`}
+          className="photo-list__user-profile"
         />
         <div className="photo-list__user-info">
           <p className="photo-list__name">{name}</p>
@@ -42,5 +46,6 @@ const PhotoListItem = ({ photo, isFavourite, toggleFavourite, setDisplayModal, s
     </div>
   );
 };
+
 
 export default PhotoListItem;
