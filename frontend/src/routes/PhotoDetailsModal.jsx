@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
-import PhotoList from 'components/PhotoList';
+import PhotoList from 'components/PhotoList'; // Import the PhotoList component
 import PhotoFavButton from 'components/PhotoFavButton';
 
 const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFavourite, allPhotos }) => {
@@ -10,8 +10,6 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
     return null;
   }
 
-  console.log('Photo Data:', photo); // Check the photo data
-  
   // Safely access photo properties with fallback values
   const locationCity = photo.location?.city || 'Unknown city';
   const locationCountry = photo.location?.country || 'Unknown country';
@@ -23,8 +21,6 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
   // Safely access photo URLs with fallback value
   const imageUrl = photo.urls?.regular || 'fallback-image-url.jpg'; // Use a real fallback image URL or placeholder
 
-  console.log('Image URL:', imageUrl); // Check the image URL
-
   // Find similar photos from the API data
   const similarPhotos = allPhotos.filter(p => p.topic === photo.topic && p.id !== photo.id);
 
@@ -33,7 +29,7 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
       <div className="photo-details-modal__top-bar">
         <button 
           className="photo-details-modal__close-button" 
-          onClick={closeDisplayModal}
+          onClick={() => closeDisplayModal(false)}
         >
           <img src={closeSymbol} alt="close symbol" />
         </button>
@@ -73,8 +69,8 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
             photos={similarPhotos} 
             favouritePhotos={favouritePhotos}
             toggleFavourite={toggleFavourite}
-            setDisplayModal={() => {}}  
-            setSelectedPhoto={() => {}}  
+            setDisplayModal={closeDisplayModal}
+            setSelectedPhoto={() => {}}
           />
         </div>
       )}
@@ -83,4 +79,3 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
 };
 
 export default PhotoDetailsModal;
-

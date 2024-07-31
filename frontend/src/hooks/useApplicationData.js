@@ -1,26 +1,24 @@
 import { useReducer, useEffect } from 'react';
 
 const initialState = {
-  displayModal: null,
+  displayModal: false,
   selectedPhoto: null,
   favouritePhotos: {},
   photoData: [],
-  topics: [],
-  selectedTopicId: null
+  topics: []
 };
 
 const actionTypes = {
-  TOGGLE_FAVORITE: 'TOGGLE_FAVORITE',
-  CLOSE_MODAL: 'CLOSE_MODAL',
-  SET_MODAL: 'SET_MODAL',
-  SET_PHOTO_DATA: 'SET_PHOTO_DATA',
-  SET_TOPIC_DATA: 'SET_TOPIC_DATA',
-  SET_TOPIC_ID: 'SET_TOPIC_ID'
+  toggleFavourite: 'TOGGLE_FAVOURITE',
+  setDisplayModal: 'SET_DISPLAY_MODAL',
+  setSelectedPhoto: 'SET_SELECTED_PHOTO',
+  setPhotoData: 'SET_PHOTO_DATA',
+  setTopicsData: 'SET_TOPICS_DATA'
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case actionTypes.TOGGLE_FAVORITE:
+    case actionTypes.toggleFavourite:
       return {
         ...state,
         favouritePhotos: {
@@ -28,30 +26,25 @@ const reducer = (state, action) => {
           [action.photoId]: !state.favouritePhotos[action.photoId]
         }
       };
-    case actionTypes.CLOSE_MODAL:
-      return {
-        ...state,
-        displayModal: null
-      };
-    case actionTypes.SET_MODAL:
+    case actionTypes.setDisplayModal:
       return {
         ...state,
         displayModal: action.payload
       };
-    case actionTypes.SET_PHOTO_DATA:
+    case actionTypes.setSelectedPhoto:
+      return {
+        ...state,
+        selectedPhoto: action.payload
+      };
+    case actionTypes.setPhotoData:
       return {
         ...state,
         photoData: action.payload
       };
-    case actionTypes.SET_TOPIC_DATA:
+    case actionTypes.setTopicsData:
       return {
         ...state,
         topics: action.payload
-      };
-    case actionTypes.SET_TOPIC_ID:
-      return {
-        ...state,
-        selectedTopicId: action.payload
       };
     default:
       return state;
@@ -62,41 +55,55 @@ const useApplicationData = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/photos').then(response => response.json()),
-      fetch('/api/topics').then(response => response.json())
-    ])
-      .then(([photos, topics]) => {
-        dispatch({ type: actionTypes.SET_PHOTO_DATA, payload: photos });
-        dispatch({ type: actionTypes.SET_TOPIC_DATA, payload: topics });
+    // Fetch photo data and dispatch it to the reducer
+    fetch('/api/photos')
+      .then(response => response.json())
+      .then(data => {
+        fetch('/api/topics')
+          .then(response => response.json())
+          .then(topics => {
+            const photosWithTopics = data.map(photo => ({
+              ...photo,
+              topic: extractTopicFromUrl(photo.urls.full)
+            }));
+            dispatch({ type: actionTypes.setPhotoData, payload: photosWithTopics });
+            dispatch({ type: actionTypes.setTopicsData, payload: topics });
+          })
+          .catch(error => console.error('Error fetching topics:', error));
       })
-      .catch(error => console.error('Error fetching data:', error));
+      .catch(error => console.error('Error fetching photos:', error));
   }, []);
 
   const toggleFavourite = (photoId) => {
-    dispatch({ type: actionTypes.TOGGLE_FAVORITE, photoId });
+    dispatch({ type: actionTypes.toggleFavourite, photoId });
   };
 
-  const closeDisplayModal = () => {
-    dispatch({ type: actionTypes.CLOSE_MODAL });
+  const closeDisplayModal = (isVisible) => {
+    dispatch({ type: actionTypes.setDisplayModal, payload: isVisible });
   };
 
-  const setModal = (photo) => {
-    dispatch({ type: actionTypes.SET_MODAL, payload: photo });
+  const setSelectedPhoto = (photo) => {
+    dispatch({ type: actionTypes.setSelectedPhoto, payload: photo });
   };
 
-  const setSelectedTopic = (topicId) => {
-    dispatch({ type: actionTypes.SET_TOPIC_ID, payload: topicId });
+  const extractTopicFromUrl = (url) => {
+    const topics = ['people', 'nature', 'travel', 'animals', 'fashion'];
+    for (let topic of topics) {
+      if (url.includes(topic)) {
+        return topic;
+      }
+    }
+    return 'unknown';
   };
 
   return {
     state,
+    dispatch,
     toggleFavourite,
     closeDisplayModal,
-    setModal,
-    setSelectedTopic
+    setSelectedPhoto, 
+    extractTopicFromUrl
   };
 };
-
 
 export default useApplicationData;
