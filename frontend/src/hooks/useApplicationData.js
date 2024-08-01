@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useState } from 'react';
 
 const initialState = {
   displayModal: false,
@@ -53,6 +53,7 @@ const reducer = (state, action) => {
 
 const useApplicationData = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [selectedTopic, setSelectedTopic] = useState(null);
 
   useEffect(() => {
     // Fetch photo data and dispatch it to the reducer
@@ -96,13 +97,23 @@ const useApplicationData = () => {
     return 'unknown';
   };
 
+  const handleTopicSelect = (topic) => {
+    setSelectedTopic(topic);
+  };
+  console.log(state.photoData)
+  const filteredPhotos = selectedTopic 
+    ? state.photoData.filter(photo => photo.topic === selectedTopic.slug)
+    : state.photoData;
+
   return {
     state,
     dispatch,
     toggleFavourite,
     closeDisplayModal,
-    setSelectedPhoto, 
-    extractTopicFromUrl
+    setSelectedPhoto,
+    extractTopicFromUrl,
+    handleTopicSelect,
+    filteredPhotos
   };
 };
 
