@@ -1,21 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PhotoDetailsModal from './routes/PhotoDetailsModal'; 
 import HomeRoute from './routes/HomeRoute';
 import useApplicationData from './hooks/useApplicationData';
 
 const App = () => {
-  const { state, dispatch, toggleFavourite, closeDisplayModal, setSelectedPhoto, extractTopicFromUrl } = useApplicationData();
-  const [selectedTopic, setSelectedTopic] = useState(null);
-
-  const handleTopicSelect = (topic) => {
-    setSelectedTopic(topic);
-  };
-
-  const filteredPhotos = selectedTopic 
-    ? state.photoData.filter(photo => {
-        return String(photo.topic) === String(selectedTopic.id);
-      })
-    : state.photoData;
+  const { state, toggleFavourite, closeDisplayModal, setSelectedPhoto, extractTopicFromUrl, handleTopicSelect, filteredPhotos } = useApplicationData();
 
   return (
     <div>
