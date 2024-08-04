@@ -34,7 +34,8 @@
   margin: 16px;
 }
 
-.photo-details-modal__image-container.photo-details-modal__fav-icon{
+.photo-details-modal__fav-icon{
+  display: flex;
   position: absolute;
   scale: 100%;
 }
@@ -86,4 +87,8 @@
 
 .photo-details-modal__photographer-location {
   color: #838383;
+}
+
+.photo-details-modal__similar{
+  color: aqua;
 }
