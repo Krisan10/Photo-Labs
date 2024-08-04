@@ -62,7 +62,7 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
         </div>
       </div>
 
-      <h2>Similar</h2>
+      <div className='similar'><h2>Similar</h2></div>
       {similarPhotos.length > 0 && (
         <div className="photo-details-modal__more-photos">
           <PhotoList 
