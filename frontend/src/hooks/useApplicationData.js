@@ -56,24 +56,42 @@ const useApplicationData = () => {
   const [selectedTopic, setSelectedTopic] = useState(null);
 
   useEffect(() => {
-    // Fetch photo data and dispatch it to the reducer
-    fetch('/api/photos')
+    // Fetch topics data and dispatch it to the reducer
+    fetch('/api/topics')
       .then(response => response.json())
-      .then(data => {
-        fetch('/api/topics')
-          .then(response => response.json())
-          .then(topics => {
-            const photosWithTopics = data.map(photo => ({
-              ...photo,
-              topic: extractTopicFromUrl(photo.urls.full)
-            }));
-            dispatch({ type: actionTypes.setPhotoData, payload: photosWithTopics });
-            dispatch({ type: actionTypes.setTopicsData, payload: topics });
-          })
-          .catch(error => console.error('Error fetching topics:', error));
+      .then(topics => {
+        dispatch({ type: actionTypes.setTopicsData, payload: topics });
       })
-      .catch(error => console.error('Error fetching photos:', error));
+      .catch(error => console.error('Error fetching topics:', error));
   }, []);
+
+  useEffect(() => {
+    // Fetch photos based on the selected topic
+    if (selectedTopic) {
+      fetch(`http://localhost:8001/api/topics/photos/${selectedTopic.id}`)
+        .then(response => response.json())
+        .then(data => {
+          const photosWithTopics = data.map(photo => ({
+            ...photo,
+            topic: extractTopicFromUrl(photo.urls.full)
+          }));
+          dispatch({ type: actionTypes.setPhotoData, payload: photosWithTopics });
+        })
+        .catch(error => console.error('Error fetching photos:', error));
+    } else {
+      // Fetch all photos if no topic is selected
+      fetch('/api/photos')
+        .then(response => response.json())
+        .then(data => {
+          const photosWithTopics = data.map(photo => ({
+            ...photo,
+            topic: extractTopicFromUrl(photo.urls.full)
+          }));
+          dispatch({ type: actionTypes.setPhotoData, payload: photosWithTopics });
+        })
+        .catch(error => console.error('Error fetching photos:', error));
+    }
+  }, [selectedTopic]);
 
   const toggleFavourite = (photoId) => {
     dispatch({ type: actionTypes.toggleFavourite, photoId });
@@ -100,7 +118,7 @@ const useApplicationData = () => {
   const handleTopicSelect = (topic) => {
     setSelectedTopic(topic);
   };
-  console.log(state.photoData)
+
   const filteredPhotos = selectedTopic 
     ? state.photoData.filter(photo => photo.topic === selectedTopic.slug)
     : state.photoData;
@@ -118,3 +136,4 @@ const useApplicationData = () => {
 };
 
 export default useApplicationData;
+;
