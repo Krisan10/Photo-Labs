@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
-import PhotoList from 'components/PhotoList'; // Import the PhotoList component
+import PhotoList from 'components/PhotoList';
 import PhotoFavButton from 'components/PhotoFavButton';
 
 const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFavourite, allPhotos }) => {
@@ -10,18 +10,11 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
     return null;
   }
 
-  // Safely access photo properties with fallback values
   const locationCity = photo.location?.city || 'Unknown city';
   const locationCountry = photo.location?.country || 'Unknown country';
-
-  // Safely destructure user details with fallback values
   const { user = {} } = photo;
   const { username = 'Unknown User', profile = '', name = 'Unknown Name' } = user;
-
-  // Safely access photo URLs with fallback value
-  const imageUrl = photo.urls?.regular || 'fallback-image-url.jpg'; // Use a real fallback image URL or placeholder
-
-  // Find similar photos from the API data
+  const imageUrl = photo.urls?.regular || 'fallback-image-url.jpg';
   const similarPhotos = allPhotos.filter(p => p.topic === photo.topic && p.id !== photo.id);
 
   return (
@@ -61,8 +54,7 @@ const PhotoDetailsModal = ({ closeDisplayModal, photo, favouritePhotos, toggleFa
           </div>
         </div>
       </div>
-
-      <div className='similar'><h2>Similar</h2></div>
+      <div className='photo-details-modal__similar'><h2>Similar Photos</h2></div>
       {similarPhotos.length > 0 && (
         <div className="photo-details-modal__more-photos">
           <PhotoList 
