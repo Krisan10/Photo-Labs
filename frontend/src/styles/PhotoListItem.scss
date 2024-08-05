@@ -43,3 +43,11 @@
 .photo-list__user-location {
   color: #838383;
 }
+
+.photo-list__fav-icon {
+  display: flex;
+  position: relative;
+  left: 15px;
+  transform: translateY(25px);
+  z-index: 4;
+}
