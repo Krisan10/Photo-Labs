@@ -67,29 +67,23 @@ const useApplicationData = () => {
 
   useEffect(() => {
     // Fetch photos based on the selected topic
+    const fetchPhotos = (url) => {
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const photosWithTopics = data.map(photo => ({
+            ...photo,
+            topic: extractTopicFromUrl(photo.urls.full)
+          }));
+          dispatch({ type: actionTypes.setPhotoData, payload: photosWithTopics });
+        })
+        .catch(error => console.error('Error fetching photos:', error));
+    };
+
     if (selectedTopic) {
-      fetch(`http://localhost:8001/api/topics/photos/${selectedTopic.id}`)
-        .then(response => response.json())
-        .then(data => {
-          const photosWithTopics = data.map(photo => ({
-            ...photo,
-            topic: extractTopicFromUrl(photo.urls.full)
-          }));
-          dispatch({ type: actionTypes.setPhotoData, payload: photosWithTopics });
-        })
-        .catch(error => console.error('Error fetching photos:', error));
+      fetchPhotos(`http://localhost:8001/api/topics/photos/${selectedTopic.id}`);
     } else {
-      // Fetch all photos if no topic is selected
-      fetch('/api/photos')
-        .then(response => response.json())
-        .then(data => {
-          const photosWithTopics = data.map(photo => ({
-            ...photo,
-            topic: extractTopicFromUrl(photo.urls.full)
-          }));
-          dispatch({ type: actionTypes.setPhotoData, payload: photosWithTopics });
-        })
-        .catch(error => console.error('Error fetching photos:', error));
+      fetchPhotos('/api/photos');
     }
   }, [selectedTopic]);
 
@@ -136,4 +130,3 @@ const useApplicationData = () => {
 };
 
 export default useApplicationData;
-;
